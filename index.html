@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Для моей любимой Динары</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+      
+      /* Фоновая гифка */
+      background-image: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2ZqMTFhemFnc2FoeWpwMmh0ZXVsMTdybzRvdnl1dXk3Z3V2c2pvOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKoWXm3okO1kgHC/giphy.gif');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      background-color: rgba(0,0,0,0.4); /* затемнение для читаемости текста */
+      border-radius: 15px;
+      margin-top: 40px;
+    }
+
+    h1 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 3em;
+      color: #ff4d6d;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    h1:hover::after {
+      content: '❤️';
+      position: absolute;
+      animation: floatHeart 1s ease forwards;
+      font-size: 1.5em;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatHeart {
+      0% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50px) scale(1.5); opacity: 0; }
+    }
+
+    p {
+      font-size: 1.2em;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    p.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .photos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .photos img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      transition: transform 0.3s, filter 0.3s;
+      cursor: pointer;
+    }
+
+    .photos img:hover {
+      transform: scale(1.1) rotate(2deg);
+      filter: brightness(1.1);
+    }
+
+    @media (min-width: 800px) {
+      .heart {
+        position: fixed;
+        font-size: 20px;
+        color: #ff4d6d;
+        animation: fall 4s linear infinite;
+        pointer-events: none;
+      }
+
+      @keyframes fall {
+        0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Для моей любимой Динары ❤️</h1>
+    <p class="fade-text">Хочу, чтобы этот день был особенным для тебя. Ты — мой свет и радость, и я хочу, чтобы это ощущалось через каждое мгновение.</p>
+
+    <div class="photos">
+      <img src="photo1.jpg" alt="Фото 1">
+      <img src="photo2.jpg" alt="Фото 2">
+      <img src="photo3.jpg" alt="Фото 3">
+    </div>
+
+    <p class="fade-text">Помнишь эти моменты? Они для меня особенные, и я хочу, чтобы мы создавали их ещё больше вместе.</p>
+
+    <p class="fade-text" style="margin-top: 40px; font-size: 1.5em;">Люблю тебя ❤️ С 14 февраля!</p>
+  </div>
+
+  <audio id="heart-sound" src="heart-sound.mp3" preload="auto"></audio>
+
+  <script>
+    // Появление текста при прокрутке
+    const fadeTexts = document.querySelectorAll('.fade-text');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    fadeTexts.forEach(p => observer.observe(p));
+
+    // Падающие сердечки (только на ПК)
+    if (window.innerWidth >= 800) {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.fontSize = (10 + Math.random() * 20) + 'px';
+        heart.innerHTML = '❤️';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }, 500);
+    }
+
+    // Звук при hover на фото
+    const photos = document.querySelectorAll('.photos img');
+    const heartSound = document.getElementById('heart-sound');
+
+    photos.forEach(img => {
+      img.addEventListener('mouseenter', () => {
+        heartSound.currentTime = 0;
+        heartSound.play();
+      });
+    });
+
+  </script>
+</body>
+</html>
